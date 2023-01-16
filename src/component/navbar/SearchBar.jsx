@@ -26,7 +26,7 @@ function SearchBar() {
   const debouncedSearch = _.debounce((value) => {
     setSearchValue(value);
     dispatch(getProductBySearch(value))
-
+ console.log(searchValue)
   }, 1000);
 
   const handleSearch = event => {

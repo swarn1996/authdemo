@@ -11,8 +11,8 @@ import LockOutLinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import { useState } from "react";
-import { selectAllUsers } from "../actions/authSlice";
-import { useSelector } from "react-redux";
+// import { selectAllUsers } from "../actions/authSlice";
+// import { useSelector } from "react-redux";
 
 
 const Auth = () => {
