@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -11,21 +11,59 @@ import LockOutLinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import { useState } from "react";
-// import { selectAllUsers } from "../actions/authSlice";
-// import { useSelector } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
+import { addUser ,isLogin} from "../actions/authSlice";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 const Auth = () => {
   const classes = useStyles();
-  const [showPassword, setShowPassword] = useState(false);
-  const [ isSignUp, setIsSignUp]  = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loginUser = useSelector(isLogin)
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function redirectToHome() {
+    console.log("i am here")
+    navigate('/');
+  }
+
+  useEffect(()=> {
+     if(loginUser === true){
+
+        redirectToHome()
+     }
+  },[loginUser])
+
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if(formData.email !== '' && formData.password !== ''){
+        dispatch(addUser(formData))
+    }else{
+        alert("please fill given fields")
+    }
+   
+  };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const switchMode = () => {setIsSignUp(!isSignUp) }
+  const switchMode = () => {
+    setIsSignUp(!isSignUp);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -34,7 +72,7 @@ const Auth = () => {
           <LockOutLinedIcon />
         </Avatar>
         <Typography variant="h5">{isSignUp ? "Sign Up" : "Sign In"}</Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} >
           <Grid container spacing={2}>
             {isSignUp && (
               <>
@@ -81,24 +119,20 @@ const Auth = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleSubmit}
             >
               {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
-            <Grid container justifyContent="flex-end" >
+            {/* <Grid container justifyContent="flex-end" >
               <Grid item>
                  <Button onClick={switchMode}>
                     {isSignUp ? 'Already have account? Sign In' : 'Don`t have an account? Sign Up'}
                  </Button>
               </Grid>
+            </Grid> */}
+            <Grid container justifyContent="flex-end">
+              <Grid item></Grid>
             </Grid>
-            <Grid container justifyContent="flex-end" >
-              <Grid item>
-             
-              </Grid>
-            </Grid>
-
-
-            
           </Grid>
         </form>
       </Paper>
