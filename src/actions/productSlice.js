@@ -1,7 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const PRODUCT_URL = 'https://dummyjson.com/products?limit=10'
+const PRODUCT_URL = 'https://dummyjson.com/products?'
 
 const initialState = {
  products:[],
@@ -10,12 +10,12 @@ const initialState = {
 };
 
 export const getProduct  = createAsyncThunk('products/getProduct', async ()=>{
-       const response = await axios.get(PRODUCT_URL);
+       const response = await axios.get(`${PRODUCT_URL}limit=30`);
        return response.data
 });
 
 export const getProductBySearch = createAsyncThunk('products/getProductBySearch', async (value) =>{
-    const response = await axios.get(`https://dummyjson.com/products/search?q=${value}`)
+    const response = await axios.get(`${PRODUCT_URL}q=${value}`)
     return response.data
 })
 
